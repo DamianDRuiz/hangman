@@ -130,14 +130,6 @@ function Answer({ answer, setAnswer }: AnswerProps) {
   )
 }
 
-interface ActionButtonProps {
-  action: () => void
-  label: string
-}
-function ActionButton({ action, label }: ActionButtonProps) {
-  return <button onClick={action}>{label}</button>
-}
-
 function isValidAnswerInput(value: string) {
   return value.match(/^[a-z]*$/)
 }
