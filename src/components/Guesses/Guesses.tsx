@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
+import GuessedChar from 'src/components/GuessedChar/GuessedChar'
 import { AnswerT, GuessesT } from 'src/types/types'
 import { isInAnswer } from 'src/util/isInAnswer'
 import { isPreviouslyGuessed } from 'src/util/isPreviouslyGuessed'
 import { isValidAnswerInput } from 'src/util/isValidAnswerInput'
 import { Updater } from 'use-immer'
-import GuessedChar from '../GuessedChar/GuessedChar'
 
 interface GuessesProps {
   guesses: GuessesT
