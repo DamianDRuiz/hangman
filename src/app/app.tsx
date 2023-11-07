@@ -9,9 +9,10 @@ import {
 } from 'react'
 import { useImmer } from 'use-immer'
 
+type Answer = string
 type Guess = string
 type Guesses = Guess[]
-type Answer = string
+//type ProcessedGuess = { key: string; inAnswer: boolean }
 
 export function App() {
   const [answer, setAnswer] = useImmer<Answer>('')
