@@ -7,23 +7,43 @@ import {
   useEffect,
   useState,
 } from 'react'
-import { useImmer } from 'use-immer'
+import { Updater, useImmer } from 'use-immer'
 
-type Answer = string
-type Guess = string
+type Answer = string | null
+type Guess = { keyChar: string; inAnswer: boolean }
 type Guesses = Guess[]
-//type ProcessedGuess = { key: string; inAnswer: boolean }
 
 export function App() {
-  const [answer, setAnswer] = useImmer<Answer>('')
+  const [answer, setAnswer] = useState<Answer>(null)
   const [guesses, setGuesses] = useImmer<Guesses>([])
 
+  return (
+    <>
+      <h1>Hangman</h1>
+      {!answer ? (
+        <Answer answer={answer} setAnswer={setAnswer} />
+      ) : (
+        <Guesses guesses={guesses} answer={answer} setGuesses={setGuesses} />
+      )}
+    </>
+  )
+}
+
+interface GuessesProps {
+  guesses: Guesses
+  answer: Answer
+  setGuesses: Updater<Guesses>
+}
+function Guesses({ guesses, answer, setGuesses }: GuessesProps) {
   const keyboardEffect = () => {
     const listener = (e: KeyboardEvent) =>
       setGuesses((draft) => {
         if (!isValidAnswerInput(e.key)) return
         if (isPreviouslyGuessed(e.key, draft)) return
-        draft.push(e.key)
+        draft.push({
+          keyChar: e.key,
+          inAnswer: isInAnswer(e.key, answer),
+        })
       })
 
     document.addEventListener('keypress', listener)
@@ -31,27 +51,32 @@ export function App() {
     return () => document.removeEventListener('keypress', listener)
   }
 
-  useEffect(keyboardEffect, [])
+  useEffect(keyboardEffect, [answer])
 
-  return (
-    <>
-      <h1>Hangman</h1>
-      <Answer answer={answer} setAnswer={setAnswer} />
-      <Guesses guesses={guesses} />
-    </>
-  )
-}
+  const guessChars = guesses.map((guess, i) => (
+    <GuessedChar key={i} keyChar={guess.keyChar} inAnswer={guess.inAnswer} />
+  ))
 
-interface GuessesProps {
-  guesses: Guesses
-}
-function Guesses({ guesses }: GuessesProps) {
   return (
     <div>
       <h2>Guesses</h2>
-      <strong>{guesses.join('')}</strong>
+      <strong>{guessChars}</strong>
     </div>
   )
+}
+
+interface GuessedCharProps extends Guess {}
+function GuessedChar({ keyChar, inAnswer }: GuessedCharProps) {
+  const styles = {
+    color: inAnswer ? 'green' : 'red',
+    border: '1px solid #000',
+    display: 'inline-block',
+    marginRight: '10px',
+    lineHeight: '0',
+    padding: '10px',
+  }
+
+  return <span style={styles}>{keyChar}</span>
 }
 
 interface AnswerProps {
@@ -99,6 +124,13 @@ function isValidAnswerInput(value: string) {
 }
 
 function isPreviouslyGuessed(value: string, guesses: Guesses) {
-  return guesses.includes(value)
+  const isInGuess: boolean =
+    guesses.filter((guess) => guess.keyChar == value).length > 0
+  return isInGuess
+}
+
+function isInAnswer(value: string, answer: Answer) {
+  if (answer == null) return false
+  return answer.split('').includes(value)
 }
 export default App
