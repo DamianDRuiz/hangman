@@ -8,14 +8,19 @@ import {
   useState,
 } from 'react'
 import { Updater, useImmer } from 'use-immer'
+import { isInAnswer } from '../util/isInAnswer'
+import { isPreviouslyGuessed } from '../util/isPreviouslyGuessed'
+import { isValidAnswerInput } from '../util/isValidAnswerInput'
+import { lose } from '../util/lose'
+import { win } from '../util/win'
 
 const MAX_WRONG_GUESSES = 5
-const LOSING_MESSAGE = 'You lost!!!! BOOO 🥺'
-const WINNING_MESSAGE = 'YOU WON!!! ❤️ ❤️ ❤️ ❤️'
+export const LOSING_MESSAGE = 'You lost!!!! BOOO 🥺'
+export const WINNING_MESSAGE = 'YOU WON!!! ❤️ ❤️ ❤️ ❤️'
 
-type Answer = string | null
+export type Answer = string | null
 type Guess = { keyChar: string; inAnswer: boolean }
-type Guesses = Guess[]
+export type Guesses = Guess[]
 
 export function App() {
   const [answer, setAnswer] = useState<Answer>(null)
@@ -54,7 +59,7 @@ interface GuessesProps {
   answer: Answer
   setGuesses: Updater<Guesses>
 }
-function Guesses({ guesses, answer, setGuesses }: GuessesProps) {
+export function Guesses({ guesses, answer, setGuesses }: GuessesProps) {
   const keyboardEffect = () => {
     const listener = (e: KeyboardEvent) =>
       setGuesses((draft) => {
@@ -102,7 +107,7 @@ interface AnswerProps {
   answer: Answer
   setAnswer: React.Dispatch<SetStateAction<Answer>>
 }
-function Answer({ answer, setAnswer }: AnswerProps) {
+export function Answer({ answer, setAnswer }: AnswerProps) {
   const [inputValue, setInputValue] = useState<string>('')
 
   const handleInputValueChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -130,32 +135,4 @@ function Answer({ answer, setAnswer }: AnswerProps) {
   )
 }
 
-function isValidAnswerInput(value: string) {
-  return value.match(/^[a-z]*$/)
-}
-
-function isPreviouslyGuessed(value: string, guesses: Guesses) {
-  const isInGuess: boolean =
-    guesses.filter((guess) => guess.keyChar == value).length > 0
-  return isInGuess
-}
-
-function isInAnswer(value: string, answer: Answer) {
-  if (answer == null) return false
-  return answer.split('').includes(value)
-}
-
-function win() {
-  window.alert(WINNING_MESSAGE)
-  resetGame()
-}
-
-function lose() {
-  window.alert(LOSING_MESSAGE)
-  resetGame()
-}
-
-function resetGame() {
-  window.location.reload()
-}
 export default App

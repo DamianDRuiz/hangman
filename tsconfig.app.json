@@ -6,7 +6,13 @@
   },
   "files": [
     "./node_modules/@nrwl/react/typings/cssmodule.d.ts",
-    "./node_modules/@nrwl/react/typings/image.d.ts"
+    "./node_modules/@nrwl/react/typings/image.d.ts",
+    "src/util/isValidAnswerInput.tsx",
+    "src/util/isPreviouslyGuessed.tsx",
+    "src/util/isInAnswer.tsx",
+    "src/util/win.tsx",
+    "src/util/lose.tsx",
+    "src/util/resetGame.tsx"
   ],
   "exclude": [
     "src/**/*.spec.ts",
