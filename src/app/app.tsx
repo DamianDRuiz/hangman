@@ -15,15 +15,15 @@ import { win } from 'src/util/win'
 import { Updater, useImmer } from 'use-immer'
 import { MAX_WRONG_GUESSES } from './constants'
 
-export type Answer = string | null
-export type Guess = { keyChar: string; inAnswer: boolean }
-export type Guesses = Guess[]
+export type AnswerT = string | null
+export type GuessT = { keyChar: string; inAnswer: boolean }
+export type GuessesT = GuessT[]
 
 export function App() {
-  const [answer, setAnswer] = useState<Answer>(null)
-  const [guesses, setGuesses] = useImmer<Guesses>([])
+  const [answer, setAnswer] = useState<AnswerT>(null)
+  const [guesses, setGuesses] = useImmer<GuessesT>([])
 
-  const observeGameEffect = () => {
+  useEffect(() => {
     if (answer == null) return
 
     const tooManyWrongGuesses: boolean =
@@ -35,9 +35,7 @@ export function App() {
 
     if (tooManyWrongGuesses) lose()
     if (allLettersGuessedCorrectly) win()
-  }
-
-  useEffect(observeGameEffect, [guesses])
+  }, [guesses])
 
   return (
     <>
@@ -52,8 +50,8 @@ export function App() {
 }
 
 interface AnswerProps {
-  answer: Answer
-  setAnswer: React.Dispatch<SetStateAction<Answer>>
+  answer: AnswerT
+  setAnswer: React.Dispatch<SetStateAction<AnswerT>>
 }
 export function Answer({ answer, setAnswer }: AnswerProps) {
   const [inputValue, setInputValue] = useState<string>('')
@@ -84,12 +82,12 @@ export function Answer({ answer, setAnswer }: AnswerProps) {
 }
 
 interface GuessesProps {
-  guesses: Guesses
-  answer: Answer
-  setGuesses: Updater<Guesses>
+  guesses: GuessesT
+  answer: AnswerT
+  setGuesses: Updater<GuessesT>
 }
 export function Guesses({ guesses, answer, setGuesses }: GuessesProps) {
-  const keyboardEffect = () => {
+  useEffect(() => {
     const listener = (e: KeyboardEvent) =>
       setGuesses((draft) => {
         if (!isValidAnswerInput(e.key)) return
@@ -102,11 +100,9 @@ export function Guesses({ guesses, answer, setGuesses }: GuessesProps) {
 
     document.addEventListener('keypress', listener)
     return () => document.removeEventListener('keypress', listener)
-  }
+  }, [answer])
 
-  useEffect(keyboardEffect, [answer])
-
-  const guessChars = guesses.map((guess, i) => (
+  const guessChars: JSX.Element[] = guesses.map((guess, i) => (
     <GuessedChar key={i} keyChar={guess.keyChar} inAnswer={guess.inAnswer} />
   ))
 
@@ -118,9 +114,9 @@ export function Guesses({ guesses, answer, setGuesses }: GuessesProps) {
   )
 }
 
-interface GuessedCharProps extends Guess {}
+interface GuessedCharProps extends GuessT {}
 function GuessedChar({ keyChar, inAnswer }: GuessedCharProps) {
-  const styles = {
+  const styles: React.CSSProperties = {
     color: inAnswer ? 'green' : 'red',
     border: '1px solid #000',
     display: 'inline-block',
