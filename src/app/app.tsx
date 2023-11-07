@@ -22,6 +22,7 @@ export function App() {
     const listener = (e: KeyboardEvent) =>
       setGuesses((draft) => {
         if (!isValidAnswerInput(e.key)) return
+        if (isPreviouslyGuessed(e.key, draft)) return
         draft.push(e.key)
       })
 
@@ -95,5 +96,9 @@ function ActionButton({ action, label }: ActionButtonProps) {
 
 function isValidAnswerInput(value: string) {
   return value.match(/^[a-z]*$/)
+}
+
+function isPreviouslyGuessed(value: string, guesses: Guesses) {
+  return guesses.includes(value)
 }
 export default App
