@@ -136,4 +136,18 @@ function isInAnswer(value: string, answer: Answer) {
   if (answer == null) return false
   return answer.split('').includes(value)
 }
+
+function win() {
+  window.alert(WINNING_MESSAGE)
+  resetGame()
+}
+
+function lose() {
+  window.alert(LOSING_MESSAGE)
+  resetGame()
+}
+
+function resetGame() {
+  window.location.reload()
+}
 export default App
