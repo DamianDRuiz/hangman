@@ -14,7 +14,7 @@
     "src/util/lose.tsx",
     "src/util/resetGame.tsx",
     "src/constants.tsx",
-    "src/types.tsx"
+    "src/types/types.tsx"
   ],
   "exclude": [
     "src/**/*.spec.ts",
