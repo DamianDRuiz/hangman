@@ -7,16 +7,16 @@ import {
   useEffect,
   useState,
 } from 'react'
+import { isInAnswer } from 'src/util/isInAnswer'
+import { isPreviouslyGuessed } from 'src/util/isPreviouslyGuessed'
+import { isValidAnswerInput } from 'src/util/isValidAnswerInput'
+import { lose } from 'src/util/lose'
+import { win } from 'src/util/win'
 import { Updater, useImmer } from 'use-immer'
-import { isInAnswer } from '../util/isInAnswer'
-import { isPreviouslyGuessed } from '../util/isPreviouslyGuessed'
-import { isValidAnswerInput } from '../util/isValidAnswerInput'
-import { lose } from '../util/lose'
-import { win } from '../util/win'
 import { MAX_WRONG_GUESSES } from './constants'
 
 export type Answer = string | null
-type Guess = { keyChar: string; inAnswer: boolean }
+export type Guess = { keyChar: string; inAnswer: boolean }
 export type Guesses = Guess[]
 
 export function App() {
