@@ -12,6 +12,7 @@ import { Updater, useImmer } from 'use-immer'
 const MAX_WRONG_GUESSES = 5
 const LOSING_MESSAGE = 'You lost!!!! BOOO 🥺'
 const WINNING_MESSAGE = 'YOU WON!!! ❤️ ❤️ ❤️ ❤️'
+
 type Answer = string | null
 type Guess = { keyChar: string; inAnswer: boolean }
 type Guesses = Guess[]
@@ -19,6 +20,22 @@ type Guesses = Guess[]
 export function App() {
   const [answer, setAnswer] = useState<Answer>(null)
   const [guesses, setGuesses] = useImmer<Guesses>([])
+
+  const observeGameEffect = () => {
+    if (answer == null) return
+
+    const tooManyWrongGuesses: boolean =
+      guesses.filter((guess) => guess.inAnswer == false).length >=
+      MAX_WRONG_GUESSES
+
+    const allLettersGuessedCorrectly: boolean =
+      guesses.filter((guess) => guess.inAnswer == true).length == answer.length
+
+    if (tooManyWrongGuesses) lose()
+    if (allLettersGuessedCorrectly) win()
+  }
+
+  useEffect(observeGameEffect, [guesses])
 
   return (
     <>
@@ -50,7 +67,6 @@ function Guesses({ guesses, answer, setGuesses }: GuessesProps) {
       })
 
     document.addEventListener('keypress', listener)
-
     return () => document.removeEventListener('keypress', listener)
   }
 
