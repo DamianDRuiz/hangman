@@ -1,4 +1,4 @@
-import { WINNING_MESSAGE } from '../app/app'
+import { WINNING_MESSAGE } from 'src/app/constants'
 import { resetGame } from './resetGame'
 
 export function win() {

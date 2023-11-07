@@ -13,10 +13,7 @@ import { isPreviouslyGuessed } from '../util/isPreviouslyGuessed'
 import { isValidAnswerInput } from '../util/isValidAnswerInput'
 import { lose } from '../util/lose'
 import { win } from '../util/win'
-
-const MAX_WRONG_GUESSES = 5
-export const LOSING_MESSAGE = 'You lost!!!! BOOO 🥺'
-export const WINNING_MESSAGE = 'YOU WON!!! ❤️ ❤️ ❤️ ❤️'
+import { MAX_WRONG_GUESSES } from './constants'
 
 export type Answer = string | null
 type Guess = { keyChar: string; inAnswer: boolean }
@@ -51,6 +48,38 @@ export function App() {
         <Guesses guesses={guesses} answer={answer} setGuesses={setGuesses} />
       )}
     </>
+  )
+}
+
+interface AnswerProps {
+  answer: Answer
+  setAnswer: React.Dispatch<SetStateAction<Answer>>
+}
+export function Answer({ answer, setAnswer }: AnswerProps) {
+  const [inputValue, setInputValue] = useState<string>('')
+
+  const handleInputValueChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!isValidAnswerInput(e.target.value)) return
+    setInputValue(e.target.value)
+  }
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault()
+    if (!isValidAnswerInput(inputValue)) return
+    setAnswer(inputValue)
+    setInputValue('')
+  }
+
+  return (
+    <div>
+      <strong>Answer: {answer}</strong>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={inputValue}
+          onChange={handleInputValueChange}
+        />
+      </form>
+    </div>
   )
 }
 
@@ -101,38 +130,6 @@ function GuessedChar({ keyChar, inAnswer }: GuessedCharProps) {
   }
 
   return <span style={styles}>{keyChar}</span>
-}
-
-interface AnswerProps {
-  answer: Answer
-  setAnswer: React.Dispatch<SetStateAction<Answer>>
-}
-export function Answer({ answer, setAnswer }: AnswerProps) {
-  const [inputValue, setInputValue] = useState<string>('')
-
-  const handleInputValueChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!isValidAnswerInput(e.target.value)) return
-    setInputValue(e.target.value)
-  }
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault()
-    if (!isValidAnswerInput(inputValue)) return
-    setAnswer(inputValue)
-    setInputValue('')
-  }
-
-  return (
-    <div>
-      <strong>Answer: {answer}</strong>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={inputValue}
-          onChange={handleInputValueChange}
-        />
-      </form>
-    </div>
-  )
 }
 
 export default App

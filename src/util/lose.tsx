@@ -1,4 +1,4 @@
-import { LOSING_MESSAGE } from '../app/app'
+import { LOSING_MESSAGE } from 'src/app/constants'
 import { resetGame } from './resetGame'
 
 export function lose() {

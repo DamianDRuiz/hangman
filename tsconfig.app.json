@@ -12,7 +12,8 @@
     "src/util/isInAnswer.tsx",
     "src/util/win.tsx",
     "src/util/lose.tsx",
-    "src/util/resetGame.tsx"
+    "src/util/resetGame.tsx",
+    "src/app/constants.tsx"
   ],
   "exclude": [
     "src/**/*.spec.ts",
