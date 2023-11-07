@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { AnswerT, GuessesT } from 'src/app/types'
+import { AnswerT, GuessesT } from 'src/types'
 import { isInAnswer } from 'src/util/isInAnswer'
 import { isPreviouslyGuessed } from 'src/util/isPreviouslyGuessed'
 import { isValidAnswerInput } from 'src/util/isValidAnswerInput'

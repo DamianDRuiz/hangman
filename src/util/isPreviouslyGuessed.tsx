@@ -1,4 +1,4 @@
-import { GuessesT } from 'src/app/types'
+import { GuessesT } from 'src/types'
 
 export function isPreviouslyGuessed(value: string, guesses: GuessesT) {
   const isInGuess: boolean =

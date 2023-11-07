@@ -1,4 +1,4 @@
-import { GuessT } from 'src/app/types'
+import { GuessT } from 'src/types'
 
 interface GuessedCharProps extends GuessT {}
 function GuessedChar({ keyChar, inAnswer }: GuessedCharProps) {

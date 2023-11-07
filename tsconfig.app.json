@@ -13,8 +13,8 @@
     "src/util/win.tsx",
     "src/util/lose.tsx",
     "src/util/resetGame.tsx",
-    "src/app/constants.tsx",
-    "src/app/types.tsx"
+    "src/constants.tsx",
+    "src/types.tsx"
   ],
   "exclude": [
     "src/**/*.spec.ts",

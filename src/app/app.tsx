@@ -6,8 +6,8 @@ import Guesses from 'src/components/Guesses/Guesses'
 import { lose } from 'src/util/lose'
 import { win } from 'src/util/win'
 import { useImmer } from 'use-immer'
-import { MAX_WRONG_GUESSES } from './constants'
-import { AnswerT, GuessesT } from './types'
+import { MAX_WRONG_GUESSES } from '../constants'
+import { AnswerT, GuessesT } from '../types'
 
 export function App() {
   const [answer, setAnswer] = useState<AnswerT>(null)

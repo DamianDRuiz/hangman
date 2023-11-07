@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, SetStateAction, useState } from 'react'
-import { AnswerT } from 'src/app/types'
+import { AnswerT } from 'src/types'
 import { isValidAnswerInput } from 'src/util/isValidAnswerInput'
 
 interface AnswerProps {
