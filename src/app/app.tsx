@@ -9,6 +9,9 @@ import {
 } from 'react'
 import { Updater, useImmer } from 'use-immer'
 
+const MAX_WRONG_GUESSES = 5
+const LOSING_MESSAGE = 'You lost!!!! BOOO 🥺'
+const WINNING_MESSAGE = 'YOU WON!!! ❤️ ❤️ ❤️ ❤️'
 type Answer = string | null
 type Guess = { keyChar: string; inAnswer: boolean }
 type Guesses = Guess[]
